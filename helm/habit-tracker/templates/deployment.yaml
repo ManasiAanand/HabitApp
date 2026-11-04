@@ -33,6 +33,13 @@ spec:
                 name: {{ include "habit-tracker.fullname" . }}-config
             - secretRef:
                 name: {{ include "habit-tracker.fullname" . }}-secret
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 30
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

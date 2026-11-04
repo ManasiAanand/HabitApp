@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: habit-tracker-gitops
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ManasiAanand/HabitApp.git
+    targetRevision: main
+    path: helm/habit-tracker
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
